@@ -11,6 +11,3 @@ RUN groupmod -g $GROUP_ID mysql
 # Change ownership of directories
 RUN mkdir /var/log/mysql
 RUN chown -R $USER_ID:$GROUP_ID /var/lib/mysql /var/log/mysql
-
-# Expose the MySQL port
-EXPOSE 3306

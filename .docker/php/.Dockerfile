@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 ARG USER
 ARG USER_ID
@@ -14,15 +14,15 @@ RUN apk add  --update --no-cache \
     bash \
     unzip \
     icu-dev \
-    sqlite \
-    php8-sqlite3
+    sqlite
 RUN apk add --no-cache --virtual .build-deps \
     linux-headers \
+    sqlite-dev \
     $PHPIZE_DEPS
 
 # Install PHP extensions
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql intl
+RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite intl
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | \
