@@ -1,0 +1,33 @@
+# Various IDE config files
+.idea/
+.vscode/
+.sublime-project
+.sublime-workspace
+nbproject/
+.settings/
+.classpath
+.project
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/cache/
+/var/log/*
+/vendor/
+###< symfony/framework-bundle ###
+
+# Always save dirs with a .gitkeep file
+!**/.gitkeep
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

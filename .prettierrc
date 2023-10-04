@@ -1,0 +1,35 @@
+indent_style: space
+indent_size: 4
+trim_trailing_whitespace: true
+insert_final_newline: true
+end_of_line: lf
+
+printWidth: 80
+max_line_length: 80
+proseWrap: preserve
+
+singleAttributePerLine: true
+
+trailing_comma: none
+semi: true # Always insert semicolons at the end of JS statements
+single_quote: false # Enforce double quotes
+jsx_single_quote: false # Use double quotes for JSX attributes
+
+bracketSameLine: true
+bracketSpacing: true # Add spaces inside object literals
+arrayBracketSpacing: true # Add spaces inside array literals
+
+alignObjectProperties: always
+arrowParens: always # Insert parentheses for arrow functions
+embeddedLanguageFormatting: off # Don't auto-format code snippets
+
+overrides:
+  - files:
+      - "*.{css,html,js,scss,twig,ts,json,yml}"
+    options:
+      indent_size: 2
+  - files:
+      - ".prettierrc"
+    options:
+      indent_size: 2
+      parser: yamllint

@@ -1,0 +1,40 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Use httpsoft/http-message for PSR-7 & PSR-17
+    http_message_server_request_factory:
+        class: HttpSoft\Message\ServerRequestFactory
+    http_message_response_factory:
+        class: HttpSoft\Message\ResponseFactory
+    http_factory_uri_factory:
+        class: HttpSoft\Message\UriFactory
+    http_factory_stream_factory:
+        class: HttpSoft\Message\StreamFactory
+    http_factory_uploaded_file_factory:
+        class: HttpSoft\Message\UploadedFileFactory
+
+    # Alias Symfony's default services to the custom ones
+    Psr\Http\Message\ServerRequestFactoryInterface: '@http_message_server_request_factory'
+    Psr\Http\Message\ResponseFactoryInterface: '@http_message_response_factory'
+    Psr\Http\Message\UriFactoryInterface: '@http_factory_uri_factory'
+    Psr\Http\Message\StreamFactoryInterface: '@http_factory_stream_factory'
+    Psr\Http\Message\UploadedFileFactoryInterface: '@http_factory_uploaded_file_factory'
