@@ -1,0 +1,2 @@
+symfonycasts_tailwind:
+    input_css: '%kernel.project_dir%/assets/styles/tailwind.css'

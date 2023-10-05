@@ -3,18 +3,19 @@
 {% block title %}Hello LandingPageController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{{ component('TopNavbarComponent') }}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="example-wrapper p-4 bg-gray-100">
+    <h1 class="text-2xl font-bold text-green-500 mb-4">Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/LandingPageController.php'|file_link(0) }}">src/Controller/LandingPageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/templates/landing_page/index.html.twig'|file_link(0) }}">templates/landing_page/index.html.twig</a></code></li>
+    <p class="mb-2">This friendly message is coming from:</p>
+    <ul class="list-disc ml-4">
+        <li class="mb-2">
+            Your controller at <code><a href="{{ '/var/www/src/Controller/LandingPageController.php'|file_link(0) }}" class="text-blue-500 hover:underline">src/Controller/LandingPageController.php</a></code>
+        </li>
+        <li class="mb-2">
+            Your template at <code><a href="{{ '/var/www/templates/landing_page/index.html.twig'|file_link(0) }}" class="text-blue-500 hover:underline">templates/landing_page/index.html.twig</a></code>
+        </li>
     </ul>
 </div>
 {% endblock %}

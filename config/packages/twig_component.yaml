@@ -1,0 +1,10 @@
+twig_component:
+    defaults:
+        # short form: components under this namespace:
+        #    - name will be the class name that comes after the prefix
+        #        App\Twig\Components\Alert => Alert
+        #        App\Twig\Components\Button\Primary => Button:Primary
+        #    - templates will live in "_components/"
+        #        Alert => templates/_components/Alert.html.twig
+        #        Button:Primary => templates/_components/Button/Primary.html.twig
+        App\Twig\Components: _components/

@@ -19,9 +19,6 @@ nbproject/
 /vendor/
 ###< symfony/framework-bundle ###
 
-# Always save dirs with a .gitkeep file
-!**/.gitkeep
-
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
@@ -31,3 +28,10 @@ nbproject/
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> symfonycasts/tailwind-bundle ###
+/var/tailwind
+###< symfonycasts/tailwind-bundle ###
+
+# Always save dirs with a .gitkeep file
+!**/.gitkeep

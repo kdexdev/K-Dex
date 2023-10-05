@@ -8,18 +8,16 @@
     </title>
 
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/tailwind.css') }}">
         {% for css in cssArray|default([]) %}
-            <link rel="stylesheet" href="{{ css }}">
+            <link rel="stylesheet" href="{{ asset(css) }}">
         {% endfor %}
     {% endblock %}
 
-    {% block scripts %}
-        {% for js in jsArray|default([]) %}
-            <script src="{{ js }}"></script>
-        {% endfor %}
+    {% block javascripts %}
+        {{ importmap() }}
     {% endblock %}
 </head>
-
 <body>
     {% block body %}{% endblock %}
 </body>
