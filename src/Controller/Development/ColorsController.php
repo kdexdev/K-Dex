@@ -17,20 +17,24 @@ class ColorsController extends AbstractController
             $this->getParameter('kernel.project_dir') . '/tailwind.config.js'
         );
 
-
-        preg_match('/' . //get out only the color array
-            '(colors:\s*\{)(([\s\w' . "'" . ':]*)\{[^\}]*\},?)*(\s*\})' .
-            '/s', $tailwindConfig, $matches);
-        $jsonConfig = '{' . $matches[0] . '}';
-
         // 'Correct' the tailwind.config.js to JSON
         $jsonConfig = preg_replace('/' .
             '^\/\*[\s\S]*?\*\/' . '|' . //remove multiline comments
             '\s\/\/.*$' . '|' . //remove inline comments
             ',\s*(?=[\}\]])' . // remove trailing commas
-            '/m', '', $jsonConfig);
+            '/m', '', $tailwindConfig);
         $jsonConfig = str_replace("'", "\"", $jsonConfig); //fix single quotes
         $jsonConfig = preg_replace('/([\d\w]+)\s*:/', '"$1":', $jsonConfig); //fix keys
+        preg_match('/' . //get out only the color array
+            '("colors":\s*\{)' . //match the start of the array
+            '((\s*("\w*":)\s*)(' . //match array keys
+                '(\{[^\}]*\})' . //match inner arrays
+                '|'.
+                '("[#\w]*")' . //match solo color values
+            '),?)*' .
+            '(\s*\})' . //match the end of the array
+            '/s', $jsonConfig, $matches);
+        $jsonConfig = '{' . $matches[0] . '}';
 
 
         // Finally parse the tailwind.config.js file

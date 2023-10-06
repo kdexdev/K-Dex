@@ -3,9 +3,16 @@
 @tailwind utilities;
 
 .smallcaps {
-    font-variant-caps: small-caps;
+  font-variant-caps: small-caps;
 }
 
 .smallcaps-all {
-    font-variant-caps: all-small-caps;
+  font-variant-caps: all-small-caps;
+}
+
+/* Forcing the dark mode unaquivically, because I'm lazy to create a light theme */
+@media (prefers-color-scheme: light) OR (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }

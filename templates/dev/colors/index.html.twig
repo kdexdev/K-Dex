@@ -3,11 +3,12 @@
 {% block title %}Hello Colors swathe!{% endblock %}
 
 {% block body %}
-    <div>
+    <div class="relative container mx-auto">
         <h1 class="text-4xl text-center">Tailwind Custom Colors</h1>
 
         {% for colorName, colorShades in colors %}
-        <div class="flex flex-col">
+        <div class="flex flex-col mb-3">
+            {% if colorShades is iterable %}
             <h2 class="text-xl text-center smallcaps">{{ colorName }}</h2>
 
             <ul class="flex flex-row w-full overflow-x-auto">
@@ -15,15 +16,28 @@
                 <li class="
                     flex flex-col items-center
                     min-w-24 min-h-16 w-full
-                    p-2 {{ shade <= 500 ? 'text-black' : 'text-white' }}"
+                    p-2 {{ shade > 500 ? 'text-white' : 'text-black' }}"
                     {# Since Tailwind doesn't like 'partial' class names #}
                     style="background:{{ colorValue }}"
                 >
                     <p>{{ shade }}</p>
-                    <p>{{ colorValue }}</p>
+                    <p class="uppercase">{{ colorValue }}</p>
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <div class="
+                flex flex-col items-center
+                min-h-16 w-1/2
+                p-2 mx-auto mt-3
+                text-white "
+                {# Since Tailwind doesn't like 'partial' class names #}
+                style="background:{{ colorShades }}"
+            >
+                <h2 class="text-xl text-center smallcaps">{{ colorName }}</h2>
+                <p class="uppercase">{{ colorShades }}</p>
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
