@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Component reference!
+{% endblock %}
+
+{% block body %}
+    <div class="relative container mx-auto">
+        <h1 class="text-4xl text-center">Tailwind/Twig Custom components</h1>
+
+        <details id="button-examples" class="my-10 border-b last:border-b-0">
+            <summary class="flex justify-center py-3">
+                <span class="text-2xl">&darr;</span>
+                <h2 class="text-2xl px-3 border-b">Buttons</h2>
+            </summary>
+
+            {% set buttons = [
+                { text: "Normal button!",   type: 'normal' },
+                { text: "Confirm button!",  type: 'confirm' },
+                { text: "Warning button!",  type: 'warning' },
+                { text: "Danger button!",   type: 'danger' }
+            ] %}
+
+            <section class="py-6 border-b last:border-b-0">
+                <h3 class="text-xl text-center smallcaps mb-3">filled</h3>
+
+                <ul class="flex flex-row w-full overflow-x-auto">
+                {% for buttonAttributes in buttons %}
+                    <li class="
+                        flex flex-col items-center
+                        min-w-24 min-h-16 w-full
+                        p-2
+                        border-r last:border-r-0
+                    ">
+                        {{ component('Button', buttonAttributes) }}
+                    </li>
+                {% endfor %}
+                </ul>
+            </section>
+
+            <section class="py-6 border-b last:border-b-0">
+                <h3 class="text-xl text-center smallcaps mb-3">outlined</h3>
+
+                <ul class="flex flex-row w-full overflow-x-auto">
+                {% for buttonAttributes in buttons %}
+                    <li class="
+                        flex flex-col items-center
+                        min-w-24 min-h-16 w-full
+                        p-2
+                        border-r last:border-r-0
+                    ">
+                        {{ component('Button',
+                            buttonAttributes|merge({ style:'outline' })) }}
+                    </li>
+                {% endfor %}
+                </ul>
+            </section>
+
+            <section class="py-6 border-b last:border-b-0">
+                <h3 class="text-xl text-center smallcaps mb-3">disabled</h3>
+
+                <ul class="flex flex-row w-full overflow-x-auto">
+                {% for buttonAttributes in buttons %}
+                    <li class="
+                        flex flex-col items-center
+                        min-w-24 min-h-16 w-full
+                        p-2
+                        border-r last:border-r-0
+                    ">
+                        {{ component('Button',
+                            buttonAttributes|merge({ disabled: true })) }}
+                    </li>
+                {% endfor %}
+                </ul>
+            </section>
+
+        </details>
+    </div>
+{% endblock %}

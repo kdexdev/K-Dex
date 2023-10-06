@@ -1,0 +1,47 @@
+<button
+    type="button"
+    class="
+        px-8 py-3
+        text-center text-base font-semibold
+        flex justify-center items-center
+        shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded
+        transition ease-in duration-200
+        {### GLOBAL-ISH ###
+            bg-transparent
+            border
+            text-white hover:text-white active:text-white
+            cursor-not-allowed opacity-70
+        #}
+        {### CONFIRM ###
+            bg-green-700 hover:bg-green-500
+            border-green-700 hover:border-green-500
+            focus:ring-green-500 focus:ring-offset-green-200
+            active:bg-green-800 active:ring-green-800 active:ring-offset-green-500
+            text-green
+        #}
+        {### WARNING ###
+            bg-orange-700 hover:bg-orange-500
+            border-orange-700 hover:border-orange-500
+            focus:ring-orange-500 focus:ring-offset-orange-200
+            active:bg-orange-800 active:ring-orange-800 active:ring-offset-orange-500
+            text-orange
+        #}
+        {### DANGER ###
+            bg-grey-700 hover:bg-grey-500
+            border-grey-700 hover:border-grey-500
+            focus:ring-grey-500 focus:ring-offset-grey-200
+            active:bg-grey-800 active:ring-grey-800 active:ring-offset-grey-500
+            text-grey
+        #}
+        {### NORMAL ###
+            bg-red-700 hover:bg-red-500
+            border-red-700 hover:border-red-500
+            focus:ring-red-500 focus:ring-offset-red-200
+            active:bg-red-800 active:ring-red-800 active:ring-offset-red-500
+            text-red
+        #}
+        {{ this.getTypeClasses() }}
+    " {{ attributes.only('disabled') }}>
+    {{ this.text }}
+</button>
+
