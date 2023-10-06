@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.smallcaps {
+    font-variant-caps: small-caps;
+}
+
+.smallcaps-all {
+    font-variant-caps: all-small-caps;
+}

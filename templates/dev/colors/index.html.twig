@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Colors swathe!{% endblock %}
+
+{% block body %}
+    <div>
+        <h1 class="text-4xl text-center">Tailwind Custom Colors</h1>
+
+        {% for colorName, colorShades in colors %}
+        <div class="flex flex-col">
+            <h2 class="text-xl text-center smallcaps">{{ colorName }}</h2>
+
+            <ul class="flex flex-row w-full overflow-x-auto">
+                {% for shade, colorValue in colorShades %}
+                <li class="
+                    flex flex-col items-center
+                    min-w-24 min-h-16 w-full
+                    p-2 {{ shade <= 500 ? 'text-black' : 'text-white' }}"
+                    {# Since Tailwind doesn't like 'partial' class names #}
+                    style="background:{{ colorValue }}"
+                >
+                    <p>{{ shade }}</p>
+                    <p>{{ colorValue }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

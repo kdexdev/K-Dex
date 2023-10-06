@@ -8,6 +8,7 @@
     </title>
 
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         <link rel="stylesheet" href="{{ asset('styles/tailwind.css') }}">
         {% for css in cssArray|default([]) %}
             <link rel="stylesheet" href="{{ asset(css) }}">
@@ -18,7 +19,7 @@
         {{ importmap() }}
     {% endblock %}
 </head>
-<body>
+<body class="relative container m-auto">
     {% block body %}{% endblock %}
 </body>
 </html>
