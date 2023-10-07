@@ -1,4 +1,4 @@
-<button
+<{{ this.buttonObject }}
     type="button"
     class="
         px-8 py-3
@@ -40,8 +40,11 @@
             active:bg-red-800 active:ring-red-800 active:ring-offset-red-500
             text-red
         #}
-        {{ this.getTypeClasses() }}
-    " {{ attributes.only('disabled') }}>
+        {{ this.getTypeClasses() }}"
+        {{ attributes.only(
+            'disabled', 'type', 'form', 'name', 'value',
+            'href', 'target', 'download')
+        }}>
     {{ this.text }}
-</button>
+</{{ this.buttonObject }}>
 
