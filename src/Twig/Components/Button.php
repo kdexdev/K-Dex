@@ -135,6 +135,8 @@ final class Button
                 $color = "orange";
                 break;
             case 'confirm':
+                $this->use = 'success';
+            case 'success':
                 $color = "green";
                 break;
             case 'warning':
