@@ -14,7 +14,7 @@ module.exports = {
       }),
       colors: {
         // Grayscale Design palette:
-        // https://grayscale.design/app?lums=93.88,75.81,61.02,48.49,37.90,30.08,17.48,12.88,7.73,5.00,1.48&palettes=%23463c34,%23e41f05,%23ef7009,%23e6ce14,%2334ab2b,%230e72dd,%238558e6,%23f25fad&filters=0|-3.0,0|0,0|0,0|0,0|0,0|0,0|0,0|0&names=grey,red,orange,yellow,green,blue,indigo,pink&labels=,,,,,,,
+        // https://grayscale.design/app?lums=93.88,75.81,61.02,48.49,37.90,29.96,17.48,12.88,7.73,4.78,1.48&palettes=%238d5d3f,%23463c34,%23e41f05,%23ef7009,%23e6ce14,%2334ab2b,%230e72dd,%238558e6,%23f25fad&filters=0|0,0|0,0|0,0|0,0|0,0|0,0|0,0|0,0|0&names=,grey,red,orange,yellow,green,blue,indigo,pink&labels=,,,,,,,,
         // Color swatches
         "grayscale": {
           50:  "#f8f8f8", // 93.88
@@ -29,14 +29,28 @@ module.exports = {
           900: "#3f3f3f", // 5.00
           950: "#202020"  // 1.48
         },
+        "brown": {
+          DEFAULT: "#bd8a6b", // brown-500
+          50:  "#fbf7f5",
+          100: "#eddfd6",
+          200: "#e0c9ba",
+          300: "#d4b39f",
+          400: "#c79d82",
+          500: "#bd8a6b",
+          600: "#9e6846",
+          700: "#885a3d",
+          800: "#6b4630",
+          900: "#543725",
+          950: "#2c1d14"
+        },
         "grey": {
-          DEFAULT: "#a6a6a6", // grayscale-400
-          50: "#f8f8f8",
-          100: "#e2e2e2",
-          200: "#cdcdcd",
-          300: "#b9b9b9",
-          400: "#a6a6a6",
-          500: "#989592",
+          DEFAULT: "#9d938b", // grey-500
+          50:  "#f9f8f7",
+          100: "#e6e1dd",
+          200: "#d4ccc5",
+          300: "#c3b7ae",
+          400: "#b2a397",
+          500: "#9d938b",
           600: "#7a736d",
           700: "#6d635b",
           800: "#574d45",
@@ -58,13 +72,13 @@ module.exports = {
           950: "#450902"
         },
         "orange": {
-          DEFAULT:"#ef7109", // orange-500
+          DEFAULT:"#ef7009", // orange-500
           50:  "#fef7f1",
           100: "#fddcc1",
           200: "#fbc293",
           300: "#f9a662",
           400: "#f7892f",
-          500: "#ef7109",
+          500: "#ef7009",
           600: "#bb5807",
           700: "#a24c06",
           800: "#7f3c05",
@@ -134,7 +148,7 @@ module.exports = {
           200: "#f9bbdc",
           300: "#f79dcd",
           400: "#f57ebd",
-          500: "#f25fad",
+          500: "#f25ead",
           600: "#de127f",
           700: "#c1106e",
           800: "#990c57",
@@ -142,18 +156,18 @@ module.exports = {
           950: "#440527"
         },
 
-        // 'Utility' color names
-        'white': '#fef7f1',
-        'black': '#0d0500',
-        'light': '#e2e2e2', // grey-100
-        'dark': '#24201c', // grey-950
+        // 'Utility' aliases
+        white: 'orange-50',
+        black: '#0d0500',
+        light: 'grey-900',
+        dark:  'grey-950',
 
-        'primary': '#F77711',
-        'secondary': '#a24c06', // orange-700
-        'info': '#7440e2', // indigo-700
-        'success': '#23741d', // green-700
-        'warning': '#71650a', // yellow-700
-        'danger': '#c71b04' // red-700
+        primary:    '#F77711',
+        secondary:  'orange-700',
+        info:       'indigo-700',
+        success:    'green-700',
+        warning:    'yellow-700',
+        danger:     'red-700'
       }
     },
   },

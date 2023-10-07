@@ -30,9 +30,14 @@
                 flex flex-col items-center
                 min-h-16 w-1/2
                 p-2 mx-auto mt-3
-                text-white "
-                {# Since Tailwind doesn't like 'partial' class names #}
-                style="background:{{ colorShades }}"
+                text-white
+                {% if colorShades matches '/^#[0-9a-fA-F]+$/' %}
+                    {# Since Tailwind doesn't like 'partial' class names #}
+                    "
+                    style="background:{{ colorShades }}"
+                {% else %}
+                    bg-{{ colorShades }}"
+                {% endif %}
             >
                 <h2 class="text-xl text-center smallcaps">{{ colorName }}</h2>
                 <p class="uppercase">{{ colorShades }}</p>
@@ -42,3 +47,20 @@
         {% endfor %}
     </div>
 {% endblock %}
+
+{### UTILITY ALIASES ###
+    Need to name them here manually, since Tailwind doesn't actually
+    read imported values n such
+
+    white: 'bg-orange-50',
+    black: '#0d0500',
+    light: 'bg-grey-900',
+    dark:  'bg-grey-950',
+
+    primary:    'bg-#F77711',
+    secondary:  'bg-orange-700',
+    info:       'bg-indigo-700',
+    success:    'bg-green-700',
+    warning:    'bg-yellow-700',
+    danger:     'bg-red-700'
+#}

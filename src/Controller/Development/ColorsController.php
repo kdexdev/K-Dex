@@ -24,13 +24,13 @@ class ColorsController extends AbstractController
             ',\s*(?=[\}\]])' . // remove trailing commas
             '/m', '', $tailwindConfig);
         $jsonConfig = str_replace("'", "\"", $jsonConfig); //fix single quotes
-        $jsonConfig = preg_replace('/([\d\w]+)\s*:/', '"$1":', $jsonConfig); //fix keys
+        $jsonConfig = preg_replace('/([\w-]+)\s*:/', '"$1":', $jsonConfig); //fix keys
         preg_match('/' . //get out only the color array
             '("colors":\s*\{)' . //match the start of the array
-            '((\s*("\w*":)\s*)(' . //match array keys
+            '((\s*("[\w-]*":)\s*)(' . //match array keys
                 '(\{[^\}]*\})' . //match inner arrays
                 '|'.
-                '("[#\w]*")' . //match solo color values
+                '("[#\w-]*")' . //match solo color values
             '),?)*' .
             '(\s*\})' . //match the end of the array
             '/s', $jsonConfig, $matches);
