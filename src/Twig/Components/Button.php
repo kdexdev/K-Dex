@@ -17,6 +17,7 @@ final class Button
     private bool $isDisabled = false;
 
     public string $buttonObject;
+    public string $additionalClasses;
 
     // Properties for <button> HTML tags
     public string $type;
@@ -53,6 +54,10 @@ final class Button
         $resolver->setDefined('style');
         $resolver->setAllowedValues('style', ['solid', 'outline']);
         $resolver->setDefaults(['style' => 'solid']);
+
+        // Add additional Tailwind (or custom) classes
+        $resolver->setDefined('additionalClasses');
+        $resolver->setAllowedTypes('additionalClasses', 'string');
 
 
         /***
@@ -158,6 +163,12 @@ final class Button
         if ($this->isDisabled) {
             $templateClasses .= " cursor-not-allowed opacity-70";
         }
+
+        // Add additional button classes
+        if (isset($this->additionalClasses)) {
+            $templateClasses .= ' ' . $this->additionalClasses;
+        }
+
 
         $classesComplete = str_replace("COLOR", $color, $templateClasses);
         $classesComplete = str_replace("TYPE", $this->use, $classesComplete);

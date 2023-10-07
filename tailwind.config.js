@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px'
+      },
       minWidth: (theme) => ({
         ...theme("width"),
       }),

@@ -16,3 +16,10 @@
     color-scheme: dark;
   }
 }
+
+/* Allows the topnav hamburger menu to be toggled without JS */
+@layer components {
+  #topnav-hbr:checked ~ #topnav-hbr-menu {
+    @apply block lg:flex;
+  }
+}

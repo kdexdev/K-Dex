@@ -3,7 +3,7 @@
 {% block title %}Hello LandingPageController!{% endblock %}
 
 {% block body %}
-{{ component('TopNavbarComponent') }}
+{{ component('TopNavbar', {links: []}) }}
 
 <div class="example-wrapper p-4 bg-gray-100">
     <h1 class="text-2xl font-bold text-green-500 mb-4">Hello {{ controller_name }}! ✅</h1>
