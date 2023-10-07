@@ -46,7 +46,7 @@ final class Button
 
         // Define the purpose of the button
         $resolver->setDefined('use');
-        $resolver->setAllowedValues('use', ['normal', 'confirm', 'warning', 'danger']);
+        $resolver->setAllowedValues('use', ['primary', 'secondary', 'normal', 'confirm', 'warning', 'danger']);
         $resolver->setDefaults(['use' => 'normal']);
 
         // Specify the styling
@@ -88,8 +88,7 @@ final class Button
             // Define the button value, used in forms
             $resolver->setDefined('value');
             $resolver->setAllowedTypes('value', 'string');
-        }
-        elseif ($data['buttonObject'] === 'a') {
+        } elseif ($data['buttonObject'] === 'a') {
             // Require the link that needs to be referred to
             $resolver->setDefined('href');
             $resolver->setRequired('href');
@@ -112,50 +111,54 @@ final class Button
     public function getTypeClasses(): string
     {
         $templateClasses =
-            "focus:ring-COLOR-500 focus:ring-offset-COLOR-200" . ' ' .
-            "hover:bg-COLOR-500 hover:text-white" . ' ' .
-            "active:bg-COLOR-800 active:ring-COLOR-800 active:ring-offset-COLOR-500 active:text-white";
+            "focus:ring-TYPE-light focus:ring-offset-COLOR-200" . ' ' .
+            "hover:bg-TYPE-light hover:text-white" . ' ' .
+            "active:bg-TYPE-dark active:ring-TYPE-dark active:ring-offset-TYPE-light active:text-white";
 
         // Set the styling classes
         switch ($this->style) {
             case 'outline':
                 $templateClasses .= ' ' .
                     "bg-transparent text-COLOR" . ' ' .
-                    "border border-COLOR-700 hover:border-COLOR-500";
+                    "border border-TYPE hover:border-TYPE-light";
                 break;
 
             case 'solid':
             default:
-                $templateClasses .= ' ' .
-                    "bg-COLOR-700 text-white";
+                $templateClasses .= " bg-TYPE text-white";
                 break;
         }
 
         // Set the colors to be used
         switch ($this->use) {
+            case 'primary':
+                $color = "orange";
+                break;
             case 'confirm':
                 $color = "green";
                 break;
             case 'warning':
-                $color = "orange";
+                $color = "yellow";
                 break;
             case 'danger':
                 $color = "red";
                 break;
 
             case 'normal':
+                $this->use = 'secondary';
+            case 'secondary':
             default:
-                $color = "grey";
+                $color = "brown";
                 break;
         }
 
         // Add disabled button styles
         if ($this->isDisabled) {
-            $templateClasses .= ' ' .
-                "cursor-not-allowed opacity-70";
+            $templateClasses .= " cursor-not-allowed opacity-70";
         }
 
         $classesComplete = str_replace("COLOR", $color, $templateClasses);
+        $classesComplete = str_replace("TYPE", $this->use, $classesComplete);
         return $classesComplete;
     }
 }
