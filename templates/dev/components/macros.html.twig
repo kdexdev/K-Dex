@@ -1,0 +1,28 @@
+{% macro CustomComponent(componentName, defaults, variants) %}
+<details id="{{ componentName|toCamelCase }}-examples" class="my-10 border border-t-0">
+    <summary class="flex justify-center py-3">
+        <span class="text-2xl">&darr;</span>
+        <h2 class="text-2xl px-3 border-b">{{ componentName }}</h2>
+    </summary>
+
+    {% for variant in variants %}
+    <section class="py-6 border-b last:border-b-0">
+        <h3 class="text-xl text-center smallcaps mb-3">{{ variant.name }}</h3>
+
+        <ul class="flex flex-row w-full overflow-x-auto">
+        {% for default in defaults %}
+            <li class="
+                flex flex-col items-center
+                min-w-24 min-h-16 w-full
+                p-2
+                border-r last:border-r-0
+            ">
+                {{ component(componentName,
+                    default|merge(variant.attributes)) }}
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</details>
+{% endmacro %}
