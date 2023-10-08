@@ -1,14 +1,17 @@
+
 <div class="flex flex-col w-full content-center justify-center px-2 md:px-3
-    space-y-1 md:space-y-0
+    {# Classes for small screens #}
+    space-y-1
+    {# Classes for 'desktops' #}
+    md:space-y-0
     {# Defining the row order in larger screens #}
     {% if image.position is defined and image.position == "right" %}
         lg:flex-row-reverse
     {% else %}
         lg:flex-row
-    {% endif %}
-    space-x-0 md:space-x-4">
+    {% endif %}">
 
-    <div class="
+    <div class="lg:mx-4
         {# Enforcing more-or-less consistent sizes #}
         aspect-[5/2] w-full h-auto lg:h-52 lg:w-auto
         {# The justify-content bypass, since it doesn't work for some reason #}
