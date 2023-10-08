@@ -40,5 +40,12 @@
                 { name: 'default/left', attributes: {} },
                 { name: 'right', attributes: {image:{position:'right'}} }
         ]) }}
+
+        {{ macros.CustomComponent('Footer', [{}], [
+            {name: 'default', attributes: { links: [
+                { name: 'Terms of Use', href: '#' },
+                { name: 'Contact', href: '#' }
+            ] }}
+        ]) }}
     </div>
 {% endblock %}

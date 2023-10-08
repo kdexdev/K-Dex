@@ -1,0 +1,37 @@
+<nav id="footer-thin" class="footer w-full bg-secondary-dark">
+    <div class="flex px-6 lg:container justify-between items-center
+        {# Mobile classes #}
+        flex-col space-y-6 py-4
+        {# Desktop classes #}
+        md:flex-row md:space-y-0 md:py-0 md:h-16
+        lg:mx-auto">
+
+        <div class="flex items-center
+            {# Mobile classes #}
+            flex-col space-y-6
+            {# Desktop classes #}
+            md:flex-row md:space-y-0 md:space-x-8">
+            <div class="items-center flex w-auto">
+                {{ svg_embed('icons/logo.svg') }}
+            </div>
+            <ul class="flex items-center
+                {# Tiny mobile classes #}
+                flex-col space-y-2
+                {# Normal mobile classes #}
+                xs:flex-row xs:space-y-0 xs:space-x-8">
+            {% for link in links %}
+                <li>
+                    <a href="{{ link.href }}" class="hover:underline">
+                        {{ link.name }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        <div class="flex flex-col items-center justify-center">
+            <span>© 2023-{{ "now"|date("Y") }}</span>
+            <span>Created by KDexDev</span>
+        </div>
+    </div>
+</nav>
