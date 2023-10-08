@@ -1,4 +1,11 @@
+/* Forcing the dark mode unaquivically, because I'm lazy to create a light theme */
+@media (prefers-color-scheme: light) OR (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
 body {
-    color: #fef7f1;
-    background-color: #1a0a01;
+  color: #fef7f1;
+  background-color: #1a0a01;
 }

@@ -2,24 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-.smallcaps {
-  font-variant-caps: small-caps;
-}
+@layer base {
+  .smallcaps {
+    font-variant-caps: small-caps;
+  }
 
-.smallcaps-all {
-  font-variant-caps: all-small-caps;
-}
-
-/* Forcing the dark mode unaquivically, because I'm lazy to create a light theme */
-@media (prefers-color-scheme: light) OR (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  .smallcaps-all {
+    font-variant-caps: all-small-caps;
   }
 }
 
-/* Allows the topnav hamburger menu to be toggled without JS */
 @layer components {
+  /* Allows the topnav hamburger menu to be toggled without JS */
   #topnav-hbr:checked ~ #topnav-hbr-menu {
     @apply block lg:flex;
+  }
+
+  /* Enlarges a (usually) SVG icon */
+  .icon-lg {
+    scale: 2;
+    padding: 1rem;
   }
 }
