@@ -26,5 +26,19 @@
                 { name: 'Link', href: '#', active: true }
             ] }}
         ]) }}
+
+        {{ macros.CustomComponent('Article', [
+            {
+                title: "This is a title",
+                content: "This is a single sentence, or a very short paragraph, describing what the article is about. It should really be no more than 200 characters, so it's short, sweet & easily digestible.",
+                image: {
+                    url: "images/article.png",
+                    alt: "The article's banner image"
+                }
+            }
+            ], [
+                { name: 'default/left', attributes: {} },
+                { name: 'right', attributes: {image:{position:'right'}} }
+        ]) }}
     </div>
 {% endblock %}

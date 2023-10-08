@@ -17,8 +17,7 @@
                 p-2
                 border-r last:border-r-0
             ">
-                {{ component(componentName,
-                    default|merge(variant.attributes)) }}
+                {{ component(componentName, mergeRecursively(default, variant.attributes)) }}
             </li>
         {% endfor %}
         </ul>

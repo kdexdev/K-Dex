@@ -35,19 +35,24 @@ class CustomFunctionExtension extends AbstractExtension
             new TwigFunction(
                 'svg_embed',
                 [$this, 'embedSvgElement', 'is_safe' => ['html']]
+            ),
+            new TwigFunction(
+                'mergeRecursively',
+                [$this, 'recursiveMerge']
             )
         ];
     }
 
     /**
-     * Returns an embeddable SVG element
+     * Returns an embeddable SVG element for the HTML markup.
      *
      * @param string $svgFilePath The asset dir relative path of the SVG file
-     * @return string Cleaned & minimized SVG
+     * @param string $size (optional) The size of the SVG element
+     * @return Markup The HTML element containing the cleaned & minimized SVG
      *
-     * @throws LogicException In case the passed SVG file doesn't exist
+     * @throws LogicException If the passed SVG file doesn't exist
      */
-    public function embedSvgElement(string $svgFilePath): Markup
+    public function embedSvgElement(string $svgFilePath, ?string $size = null): Markup
     {
         // Read the SVG content from the file
         $completeFilePath = self::$projectAssetsDir . '/' . $svgFilePath;
@@ -66,8 +71,21 @@ class CustomFunctionExtension extends AbstractExtension
         $svg = preg_replace("/<\?xml[^>]*>/", "", $svg);
 
         // Place it inside a div.icon
-        $svg = '<div class="icon">' . $svg . '</div>';
+        $classes = "icon" . ($size !== null ? " icon-$size" : '');
+        $svg = "<div class=\"$classes\">$svg</div>";
 
         return new Markup($svg, 'utf-8');
+    }
+
+    /**
+     * Recursively merges two arrays.
+     *
+     * @param array $array1 The first array to merge.
+     * @param array $array2 The second array to merge.
+     * @return array The merged array.
+     */
+    public function recursiveMerge(array $array1, array $array2): array
+    {
+        return array_merge_recursive($array1, $array2);
     }
 }
