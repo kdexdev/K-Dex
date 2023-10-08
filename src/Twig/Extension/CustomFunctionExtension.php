@@ -47,12 +47,12 @@ class CustomFunctionExtension extends AbstractExtension
      * Returns an embeddable SVG element for the HTML markup.
      *
      * @param string $svgFilePath The asset dir relative path of the SVG file
-     * @param string $size (optional) The size of the SVG element
+     * @param array $classes (optional) Additional classes to be applied to the SVG element's container
      * @return Markup The HTML element containing the cleaned & minimized SVG
      *
      * @throws LogicException If the passed SVG file doesn't exist
      */
-    public function embedSvgElement(string $svgFilePath, ?string $size = null): Markup
+    public function embedSvgElement(string $svgFilePath, array $classes = []): Markup
     {
         // Read the SVG content from the file
         $completeFilePath = self::$projectAssetsDir . '/' . $svgFilePath;
@@ -71,8 +71,11 @@ class CustomFunctionExtension extends AbstractExtension
         $svg = preg_replace("/<\?xml[^>]*>/", "", $svg);
 
         // Place it inside a div.icon
-        $classes = "icon" . ($size !== null ? " icon-$size" : '');
-        $svg = "<div class=\"$classes\">$svg</div>";
+        $classesString = "icon";
+        foreach ($classes as $value) {
+            $classesString .= " $value";
+        }
+        $svg = "<div class=\"$classesString\">$svg</div>";
 
         return new Markup($svg, 'utf-8');
     }

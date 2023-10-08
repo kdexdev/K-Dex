@@ -3,19 +3,108 @@
 {% block title %}Hello LandingPageController!{% endblock %}
 
 {% block body %}
-{{ component('TopNavbar', {links: []}) }}
+<header class="w-full sticky top-0
+    transition-opacity duration-300 opacity-0">
+    {{ component('TopNavbar', {links: []}) }}
+</header>
 
-<div class="example-wrapper p-4 bg-gray-100">
-    <h1 class="text-2xl font-bold text-green-500 mb-4">Hello {{ controller_name }}! ✅</h1>
+{# Hero section #}
+<section id="hero" class="-mt-16">
+    <div class="container mx-auto h-[90vh]
+        flex flex-col items-center text-center justify-center
+        px-4
+        md:px-10 lg:max-w-4xl">
+        {{ svg_embed('icons/logo-large.svg',
+            ['icon-xl', 'sm:icon-2xl', 'md:icon-3xl']) }}
 
-    <p class="mb-2">This friendly message is coming from:</p>
-    <ul class="list-disc ml-4">
-        <li class="mb-2">
-            Your controller at <code><a href="{{ '/var/www/src/Controller/LandingPageController.php'|file_link(0) }}" class="text-blue-500 hover:underline">src/Controller/LandingPageController.php</a></code>
-        </li>
-        <li class="mb-2">
-            Your template at <code><a href="{{ '/var/www/templates/landing_page/index.html.twig'|file_link(0) }}" class="text-blue-500 hover:underline">templates/landing_page/index.html.twig</a></code>
-        </li>
-    </ul>
-</div>
+        <h1 class="text-4xl font-bold sm:text-5xl">The open-source
+            <span class="text-primary">adult roleplaying site</span>
+            of your dreams
+        </h1>
+
+        <div class="flex items-center mt-6
+        {# Mobile classes #}
+        flex-col space-y-4 w-full
+        {# Desktop classes #}
+        sm:flex-row sm:space-y-0 sm:space-x-3
+        md:w-auto ">
+            {{ component('Button', { buttonObject:'a',
+                href:'/login', target: '_self',
+                text:'Sign in', use:'primary', style:'outline',
+                additionalClasses: "w-full"
+            }) }}
+            {{ component('Button', { buttonObject:'a',
+                href:'/signup', target: '_self',
+                text:'Register', use:'primary', style:'solid',
+                additionalClasses: "w-full"
+            }) }}
+        </div>
+    </div>
+</section>
+
+{# Info sections #}
+<section id="characters">
+    <div class="container mx-auto
+    flex flex-col items-center
+    {# The mobile column style #}
+    space-y-10 lg:space-y-6">
+    {% set featureArray = [
+        {
+            title: "Create your characters!",
+            content: "The core of K-Dex is the creation of characters and their profiles. Be as detailed or minimal as you want (though from personal experience, I'd suggest using a lot of images). And with your character set up..."
+        },
+        {
+            title: "Interact with others!",
+            content: "Show off your newly created OC (or shamelessly stolen cannon character) to other Dexers (userbase name pending)! Someone will surely show interest in them, which should allow you to..."
+        },
+        {
+            title: "Roleplay with people!",
+            content: "Whether you want one-on-one personal stories, one-on-GM/DM, or even create a world with a group of other writers, we've got you covered! All of this can be done through forums and direct messages, but if you want more rapid-fire dopamine hits..."
+        },
+        {
+            title: "Chat in real time!",
+            content: "Yes, we have an IRC channel to help you write out your fantasies with all other users logged in! Everyone's characters and interests are accessible directly if you use our app (not in development yet), but you can connect from any other IRC client as well!"
+        }
+    ] %}
+    {% for feature in featureArray %}
+        {{ component('Article', mergeRecursively(feature, {
+            image: {
+                url: "images/article.png",
+                alt: "article image",
+                position: loop.index is even ? 'left' : 'right'
+            } })
+        ) }}
+    {% endfor %}
+    </div>
+</section>
+
+<footer class="w-full mt-16">
+    {{ component('Footer', {
+        links: [
+            { name: 'Terms of Use', href: '/tos' },
+            { name: 'Contact', href: '/contact' }
+        ] }
+    ) }}
+</footer>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    const hero = document.querySelector('#hero');
+    var heroHeight = hero.offsetHeight;
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > heroHeight) {
+    header.classList.remove('opacity-0');
+    header.classList.add('opacity-100');
+    } else {
+    header.classList.remove('opacity-100');
+    header.classList.add('opacity-0');
+    }
+  });
+</script>
 {% endblock %}
