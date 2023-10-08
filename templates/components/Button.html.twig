@@ -1,5 +1,14 @@
 <{{ this.buttonObject }}
-    type="button"
+    {% if this.buttonObject == 'button' %}
+        type="{{ buttonType }}"
+        form="{{ formId }}"
+        name="{{ buttonName }}"
+        value="{{ buttonValue }}"
+    {% elseif  this.buttonObject == 'a' %}
+        href="{{ linkUrl }}"
+        target="{{ linkTarget }}"
+        {{ linkIsDownload ? "download" : '' }}
+    {% endif %}
     class="
         px-8 py-3
         text-center text-base font-semibold
@@ -47,11 +56,8 @@
             active:bg-secondary-dark active:ring-secondary-dark active:ring-offset-secondary-light
             text-secondary
         #}
-        {{ this.getTypeClasses() }}"
-        {{ attributes.only(
-            'disabled', 'type', 'form', 'name', 'value',
-            'href', 'target', 'download')
-        }}>
+        {{ this.getTypeClasses() }}">
+
     {{ this.text }}
 </{{ this.buttonObject }}>
 

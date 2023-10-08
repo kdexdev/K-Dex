@@ -5,6 +5,7 @@ namespace App\Twig\Components;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 
 #[AsTwigComponent(exposePublicProps: false)]
 final class Button
@@ -20,15 +21,22 @@ final class Button
     public string $additionalClasses;
 
     // Properties for <button> HTML tags
-    public string $type;
-    public string $form;
-    public string $name;
-    public string $value;
+    #[ExposeInTemplate('buttonType')]
+    public string $type = '';
+    #[ExposeInTemplate('formId')]
+    public string $form = '';
+    #[ExposeInTemplate('buttonName')]
+    public string $name = '';
+    #[ExposeInTemplate('buttonValue')]
+    public string $value = '';
 
     // Properties for <a> HTML tags
-    public string $href;
-    public string $target;
-    public bool   $download;
+    #[ExposeInTemplate('linkUrl')]
+    public string $href = '';
+    #[ExposeInTemplate('linkTarget')]
+    public string $target = '';
+    #[ExposeInTemplate('linkIsDownload')]
+    public bool   $download = false;
 
     #[PreMount()]
     public function preMount(array $data): array
@@ -61,7 +69,7 @@ final class Button
 
 
         /***
-         * HTML properties
+         * General HTML properties
          */
 
         // Check if button has been disabled
@@ -75,39 +83,46 @@ final class Button
         $resolver->setAllowedValues('buttonObject', ['button', 'a']);
         $resolver->setDefaults(['buttonObject' => 'button']);
 
-        // Attribute split between button and anchor
-        if (!isset($data['buttonObject']) || $data['buttonObject'] === 'button') {
-            // Define the HTML usecase type
-            $resolver->setDefined('type');
-            $resolver->setDefaults(['type' => 'button']);
-            $resolver->setAllowedValues('type', ['button', 'submit', 'reset']);
 
-            // Define the form id that the button belongs to
-            $resolver->setDefined('form');
-            $resolver->setAllowedTypes('form', 'string');
+        /***
+         * Button HTML properties
+         */
 
-            // Define the button name, used in forms
-            $resolver->setDefined('name');
-            $resolver->setAllowedTypes('name', 'string');
+        // Define the HTML usecase type
+        $resolver->setDefined('type');
+        $resolver->setDefaults(['type' => 'button']);
+        $resolver->setAllowedValues('type', ['button', 'submit', 'reset']);
 
-            // Define the button value, used in forms
-            $resolver->setDefined('value');
-            $resolver->setAllowedTypes('value', 'string');
-        } elseif ($data['buttonObject'] === 'a') {
-            // Require the link that needs to be referred to
-            $resolver->setDefined('href');
-            $resolver->setRequired('href');
-            $resolver->setAllowedTypes('href', 'string');
+        // Define the form id that the button belongs to
+        $resolver->setDefined('form');
+        $resolver->setAllowedTypes('form', 'string');
 
-            // Define where the page needs to be opened
-            $resolver->setDefined('target');
-            $resolver->setDefaults(['target' => '_blank']);
-            $resolver->setAllowedValues('target', ['_blank', '_self', '_parent', '_top']);
+        // Define the button name, used in forms
+        $resolver->setDefined('name');
+        $resolver->setAllowedTypes('name', 'string');
 
-            // Define if there is a download
-            $resolver->setDefined('download');
-            $resolver->setAllowedTypes('download', 'boolean');
-        }
+        // Define the button value, used in forms
+        $resolver->setDefined('value');
+        $resolver->setAllowedTypes('value', 'string');
+
+
+        /***
+         * Anchor/link HTML properties
+         */
+
+        // Require the link that needs to be referred to
+        $resolver->setDefined('href');
+        $resolver->setRequired('href');
+        $resolver->setAllowedTypes('href', 'string');
+
+        // Define where the page needs to be opened
+        $resolver->setDefined('target');
+        $resolver->setDefaults(['target' => '_blank']);
+        $resolver->setAllowedValues('target', ['_blank', '_self', '_parent', '_top']);
+
+        // Define if there is a download
+        $resolver->setDefined('download');
+        $resolver->setAllowedTypes('download', 'boolean');
 
 
         return $resolver->resolve($data);
