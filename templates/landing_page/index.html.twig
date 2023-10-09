@@ -1,16 +1,35 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style type="text/css">
+  * + #hero {
+    margin-bottom: 0;
+  }
+  #hero {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  #hero + *,
+  #hero2 + *  {
+    margin-top: 0;
+  }
+</style>
+{% endblock %}
+
 {% block title %}Hello LandingPageController!{% endblock %}
 
 {% block body %}
-<header class="w-full sticky top-0
-    transition-opacity duration-300 opacity-0">
+<header class="w-full sticky top-0 -mb-16
+    {# Animation stuff #}
+    hidden opacity-0
+    transition-opacity duration-300">
     {{ component('TopNavbar', {links: []}) }}
 </header>
 
 {# Hero section #}
-<section id="hero" class="-mt-16">
-    <div class="container mx-auto h-[90vh]
+<section id="hero" class="flex flex-col justify-center h-[90vh]">
+    <div class="container mx-auto
         flex flex-col items-center text-center justify-center
         px-4
         md:px-10 lg:max-w-4xl">
@@ -42,8 +61,23 @@
     </div>
 </section>
 
-{# Info sections #}
-<section id="characters">
+{# "advert blurb" section #}
+<section id="description" class="bg-secondary-dark">
+    <div class="container mx-auto
+        flex flex-col items-center text-center justify-center
+        px-4 py-16
+        md:px-10 lg:max-w-5xl">
+        <p class="text-xl">
+            K-Dex is an open-source framework for roleplaying forums in the vein of F-List, a popular NSFW site that has (for better or worse) garnered a reputation for itself. It has implemented the same features as its inspiration, with the addition of expanding on top of them.
+        </p>
+        <p class="text-xl">
+            Its origins may be from the NSFW corners of the web, but by no means is hosting ERPs <em>(<strong>e</strong>rotic <strong>r</strong>ole<strong>p</strong>lays)</em> its sole purpose. You can create your own instance with your own rules and features - that's the beauty of the site being open-source!
+        </p>
+    </div>
+</section>
+
+{# Feature info sections #}
+<section id="features">
     <div class="container mx-auto
     flex flex-col items-center
     {# The mobile column style #}
@@ -78,7 +112,25 @@
     </div>
 </section>
 
-<footer class="w-full mt-16">
+{# Ask to join (again) #}
+<section id="hero2" class="flex flex-col justify-center bg-primary-dark">
+    <div class="container mx-auto
+        flex flex-col items-center text-center justify-center
+        px-4 py-16 space-y-8
+        md:px-10 lg:max-w-4xl">
+        <h3 class="text-4xl font-bold sm:text-5xl text-white">Seems interesting? Then
+            <span class="text-secondary-dark">join us</span>
+            today!
+        </h1>
+        {{ component('Button', { buttonObject:'a',
+            href:'/signup', target: '_self',
+            text:'Register', use:'secondary', style:'solid',
+            additionalClasses: "w-full"
+        }) }}
+    </div>
+</section>
+
+<footer class="w-full">
     {{ component('Footer', {
         links: [
             { name: 'Terms of Use', href: '/tos' },
@@ -101,9 +153,13 @@
     if (scrollTop > heroHeight) {
     header.classList.remove('opacity-0');
     header.classList.add('opacity-100');
+    header.classList.remove('hidden');
+    header.classList.add('flex');
     } else {
     header.classList.remove('opacity-100');
     header.classList.add('opacity-0');
+    header.classList.remove('flex');
+    header.classList.add('hidden');
     }
   });
 </script>
