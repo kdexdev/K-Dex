@@ -87,43 +87,44 @@ final class Button
         /***
          * Button HTML properties
          */
+        if (!isset($data['buttonObject'])
+         || $data['buttonObject'] === 'button') {
+            // Define the HTML usecase type
+            $resolver->setDefined('type');
+            $resolver->setDefaults(['type' => 'button']);
+            $resolver->setAllowedValues('type', ['button', 'submit', 'reset']);
 
-        // Define the HTML usecase type
-        $resolver->setDefined('type');
-        $resolver->setDefaults(['type' => 'button']);
-        $resolver->setAllowedValues('type', ['button', 'submit', 'reset']);
+            // Define the form id that the button belongs to
+            $resolver->setDefined('form');
+            $resolver->setAllowedTypes('form', 'string');
 
-        // Define the form id that the button belongs to
-        $resolver->setDefined('form');
-        $resolver->setAllowedTypes('form', 'string');
+            // Define the button name, used in forms
+            $resolver->setDefined('name');
+            $resolver->setAllowedTypes('name', 'string');
 
-        // Define the button name, used in forms
-        $resolver->setDefined('name');
-        $resolver->setAllowedTypes('name', 'string');
-
-        // Define the button value, used in forms
-        $resolver->setDefined('value');
-        $resolver->setAllowedTypes('value', 'string');
-
+            // Define the button value, used in forms
+            $resolver->setDefined('value');
+            $resolver->setAllowedTypes('value', 'string');
+        }
 
         /***
          * Anchor/link HTML properties
          */
+        elseif ($data['buttonObject'] === 'a') {
+            // Require the link that needs to be referred to
+            $resolver->setDefined('href');
+            $resolver->setRequired('href');
+            $resolver->setAllowedTypes('href', 'string');
 
-        // Require the link that needs to be referred to
-        $resolver->setDefined('href');
-        $resolver->setRequired('href');
-        $resolver->setAllowedTypes('href', 'string');
+            // Define where the page needs to be opened
+            $resolver->setDefined('target');
+            $resolver->setDefaults(['target' => '_blank']);
+            $resolver->setAllowedValues('target', ['_blank', '_self', '_parent', '_top']);
 
-        // Define where the page needs to be opened
-        $resolver->setDefined('target');
-        $resolver->setDefaults(['target' => '_blank']);
-        $resolver->setAllowedValues('target', ['_blank', '_self', '_parent', '_top']);
-
-        // Define if there is a download
-        $resolver->setDefined('download');
-        $resolver->setAllowedTypes('download', 'boolean');
-
+            // Define if there is a download
+            $resolver->setDefined('download');
+            $resolver->setAllowedTypes('download', 'boolean');
+        }
 
         return $resolver->resolve($data);
     }
