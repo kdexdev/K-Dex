@@ -47,5 +47,20 @@
                 { name: 'Contact', href: '#' }
             ] }}
         ]) }}
+
+        {{ macros.CustomComponent('Input', [
+                { type: 'text',     formId: '#', name: "text-field",
+                    placeholder: "Text field" },
+                { type: 'password', formId: '#', name: "password-field",
+                    placeholder: "Password field" },
+                { type: 'email',    formId: '#', name: "email-field"     ,
+                    placeholder: "Email field" },
+                { type: 'url',      formId: '#', name: "url-field",
+                    placeholder: "URL field" },
+                { type: 'number',   formId: '#', name: "number-field",
+                    placeholder: "Number field" }
+            ], [
+                { name: 'default', attributes: {} }
+        ]) }}
     </div>
 {% endblock %}
