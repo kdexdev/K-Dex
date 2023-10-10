@@ -9,6 +9,8 @@ use Symfony\UX\TwigComponent\Attribute\PreMount;
 #[AsTwigComponent()]
 final class Input
 {
+    // Input stying properties
+    public string $icon;
     // Global HTML properties
     public string $type;
     public string $formId;
@@ -32,6 +34,12 @@ final class Input
     public function preMount(array $data): array
     {
         $resolver = new OptionsResolver();
+
+        /***
+         * Input stying properties
+         */
+        $resolver->setDefined('icon');
+        $resolver->setAllowedTypes('icon', 'string');
 
         /***
          * Global HTML properties

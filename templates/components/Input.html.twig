@@ -1,26 +1,51 @@
-<input
-    {# Global HTML properties #}
-    type="{{        this.type }}"
-    form="{{        this.formId }}"
-    name="{{        this.name }}"
-    placeholder="{{ this.placeholder ?? '' }}"
-    value="{{       this.value ?? '' }}"
-    {# Global verification properties #}
-    {{ this.required ? 'required' : '' }}
-    {{ this.disabled ? "disabled" : '' }}
-    max="{{         this.maxVal ?? '' }}"
-    min="{{         this.minVal ?? '' }}"
-    maxlength="{{   this.maxLen ?? '' }}"
-    minlength="{{   this.minLen ?? '' }}"
-    pattern="{{     this.pattern ?? '' }}"
-    autocomplete="{{ this.autocomplete ?? '' }}"
+<div class="flex flex-row w-full px-6 py-3 shadow-md
+    text-white fill-white placeholder-grey
+    bg-grey-950 rounded border border-secondary-light
+    focus-within:border-primary focus-within:outline-primary
+    focus-within:ring-primary-light focus-within:ring-1  focus-within:ring-offset-1">
+    {% if this.icon is defined %}
+        {{ svg_embed(this.icon,
+            ["flex", "items-center", "-ml-4", "-my-1", "pr-2", "fill-white"]) }}
+    {% endif %}
+    <input
+        {# Global HTML properties #}
+        type="{{ this.type }}"
+        form="{{ this.formId }}"
+        name="{{ this.name }}"
+        {% if this.placeholder  is defined %}
+            placeholder="{{ this.placeholder ?? '' }}"
+        {% endif %}
 
-    {# Tailwind style classes #}
-    class="
-        w-full px-4 py-3 shadow-md
-        text-white placeholder-grey
-        bg-grey-950 rounded border border-secondary-light
-        focus:border-primary focus:outline-none
-        focus-visible:outline focus-visible:outline-primary
-    "
-/>
+        {% if this.value        is defined %}
+            value="{{ this.value ?? '' }}"
+        {% endif %}
+        {# Global verification properties #}
+        {{ this.required ? "required" : '' }}
+        {{ this.disabled ? "disabled" : '' }}
+
+        {% if this.maxVal       is defined %}
+            max="{{ this.maxVal ?? '' }}"
+        {% endif %}
+        {% if this.minVal       is defined %}
+            min="{{ this.minVal ?? '' }}"
+        {% endif %}
+        {% if this.maxLen       is defined %}
+            maxlength="{{ this.maxLen ?? '' }}"
+        {% endif %}
+        {% if this.minLen       is defined %}
+            minlength="{{ this.minLen ?? '' }}"
+        {% endif %}
+        {% if this.pattern      is defined %}
+            pattern="{{ this.pattern ?? '' }}"
+        {% endif %}
+        {% if this.autocomplete is defined %}
+            autocomplete="{{ this.autocomplete ?? '' }}"
+        {% endif %}
+
+        {# Tailwind style classes #}
+        class="w-full bg-transparent p-0
+            {# Trying to remove the default focus indicators#}
+            border-0 outline-none focus:border-transparent
+            focus:ring-0 focus:ring-offset-0"
+    />
+</div>
