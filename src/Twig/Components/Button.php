@@ -10,14 +10,14 @@ use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 #[AsTwigComponent(exposePublicProps: false)]
 final class Button
 {
+    // General HTML properties
+    public string $buttonObject;
+    private bool $isDisabled = false;
+
     // Properties for class styles
     public string $text;
     public string $use;
     public string $style;
-
-    private bool $isDisabled = false;
-
-    public string $buttonObject;
     public string $additionalClasses;
 
     // Properties for <button> HTML tags
@@ -45,6 +45,22 @@ final class Button
 
 
         /***
+         * General HTML properties
+         */
+
+        // Check what HTML element is the button
+        $resolver->setDefined('buttonObject');
+        $resolver->setAllowedValues('buttonObject', ['button', 'a']);
+        $resolver->setDefaults(['buttonObject' => 'button']);
+
+        // Check if button has been disabled
+        $resolver->setDefined('disabled');
+        $resolver->setAllowedTypes('disabled', 'boolean');
+        $this->isDisabled = (isset($data['disabled'])
+            && $data['disabled'] !== false);
+
+
+        /***
          * Style properties
          */
 
@@ -69,23 +85,7 @@ final class Button
 
 
         /***
-         * General HTML properties
-         */
-
-        // Check if button has been disabled
-        $resolver->setDefined('disabled');
-        $resolver->setAllowedTypes('disabled', 'boolean');
-        $this->isDisabled = (isset($data['disabled'])
-            && $data['disabled'] !== false);
-
-        // Check what HTML element is the button
-        $resolver->setDefined('buttonObject');
-        $resolver->setAllowedValues('buttonObject', ['button', 'a']);
-        $resolver->setDefaults(['buttonObject' => 'button']);
-
-
-        /***
-         * Button HTML properties
+         * Button-specific HTML properties
          */
         if (!isset($data['buttonObject'])
          || $data['buttonObject'] === 'button') {
@@ -106,9 +106,8 @@ final class Button
             $resolver->setDefined('value');
             $resolver->setAllowedTypes('value', 'string');
         }
-
         /***
-         * Anchor/link HTML properties
+         * Anchor/link-specific HTML properties
          */
         elseif ($data['buttonObject'] === 'a') {
             // Require the link that needs to be referred to
