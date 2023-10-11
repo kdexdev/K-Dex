@@ -108,10 +108,12 @@ final class Input
         $resolver->setAllowedTypes('disabled', 'boolean');
         $resolver->setDefault('disabled', false);
 
-        // Define the input placeholder
-        $resolver->setDefined('placeholder');
-        $resolver->setRequired('placeholder');
-        $resolver->setAllowedTypes('placeholder', 'string');
+        if ($data['type'] !== "hidden") {
+            // Define the input placeholder
+            $resolver->setDefined('placeholder');
+            $resolver->setRequired('placeholder');
+            $resolver->setAllowedTypes('placeholder', 'string');
+        }
 
 
         return $resolver->resolve($data);

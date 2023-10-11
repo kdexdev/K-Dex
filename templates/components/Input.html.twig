@@ -1,8 +1,11 @@
-<div class="flex flex-row w-full px-6 py-3 shadow-md
-    text-white fill-white placeholder-grey
-    bg-grey-950 rounded border border-secondary-light
-    focus-within:border-primary focus-within:outline-primary
-    focus-within:ring-primary-light focus-within:ring-1  focus-within:ring-offset-1">
+<div {% if this.type is not same as("hidden") %}
+        class="flex flex-row w-full px-6 py-3 shadow-md
+        text-white fill-white placeholder-grey
+        bg-grey-950 rounded border border-secondary-light
+        focus-within:border-primary focus-within:outline-primary
+        focus-within:ring-primary-light focus-within:ring-1  focus-within:ring-offset-1"
+    {% endif %}
+    >
     {% if this.icon is defined %}
         {{ svg_embed(this.icon,
             ["flex", "items-center", "-ml-4", "-my-1", "pr-2", "fill-white"]) }}
