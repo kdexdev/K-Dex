@@ -1,0 +1,226 @@
+{% use 'tailwind_2_layout.html.twig' %}
+
+{###########
+ ###
+ ###    Text area-like input types
+ ###
+ ###########}
+
+{% block form_widget_simple %}
+    <div
+        {% set type = type|default('text') %}
+
+        {% if type is not same as("hidden") %}
+            class="flex flex-row w-full px-6 py-3 shadow-md
+            text-white fill-white placeholder-grey
+            bg-grey-950 rounded border border-secondary-light
+            focus-within:border-primary focus-within:outline-primary
+            focus-within:ring-primary-light focus-within:ring-1  focus-within:ring-offset-1"
+        {% endif %}
+    >
+        {% set type = type|default('text') %}
+
+        {% if icon is defined %}
+            {{ svg_embed(icon,
+                ["flex", "items-center", "-ml-4", "-my-1", "pr-2", "fill-white"]) }}
+        {% endif %}
+
+        <input
+            {# Global HTML properties #}
+            type="{{ type }}"
+            name="{{ name }}"
+            {% if placeholder is defined %}
+                placeholder="{{ placeholder ?? '' }}"
+            {% endif %}
+            {% if formId is defined %}
+                form="{{ formId }}"
+            {% endif %}
+
+            {% if value is defined %}
+                value="{{ value }}"
+            {% endif %}
+
+            {# Global verification properties #}
+            {{ required ? "required" : '' }}
+            {{ disabled ? "disabled" : '' }}
+
+            {{ block('attributes') }}
+
+            class="
+                w-full bg-transparent p-0
+                {# Trying to remove the default focus indicators#}
+                border-0 outline-none focus:border-transparent
+                focus:ring-0 focus:ring-offset-0
+                {% if classes is defined %}{{ classes }}{% endif %}
+            "
+        />
+    </div>
+{% endblock form_widget_simple %}
+
+{% block number_widget %}
+    {# type="number" doesn't work with floats in localized formats #}
+    {% set type = type|default("text") %}
+    {% set icon = icon|default("icons/hash.svg") %}
+    {{ block('form_widget_simple') }}
+{% endblock number_widget %}
+
+{% block integer_widget %}
+    {% set type = type|default("number") %}
+    {{ block('number_widget') }}
+{% endblock integer_widget %}
+
+{% block url_widget %}
+    {% set type = type|default('url') %}
+    {% set icon = icon|default("icons/link.svg") %}
+    {{ block('form_widget_simple') }}
+{% endblock url_widget %}
+
+{% block search_widget %}
+    {% set type = type|default('search') %}
+    {% set icon = icon|default("icons/magnifying-glass.svg") %}
+    {{ block('form_widget_simple') }}
+{% endblock search_widget %}
+
+{% block password_widget %}
+    {% set type = type|default('password') %}
+    {% set icon = icon|default("icons/password.svg") %}
+    {{ block('form_widget_simple') }}
+{% endblock password_widget %}
+
+{% block email_widget %}
+    {% set type = type|default('email') %}
+    {% set icon = icon|default("icons/envelope-simple.svg") %}
+    {{ block('form_widget_simple') }}
+{% endblock email_widget %}
+
+{% block percent_widget %}
+    {% set type = type|default('text') %}
+    {{ block('form_widget_simple') }}
+    {# Append the input field with a percent sign #}
+    {% if symbol %}
+        {{ symbol|default('%') }}
+    {% endif %}
+{% endblock percent_widget %}
+
+{%- block tel_widget -%}
+    {%- set type = type|default('tel') -%}
+    {% set icon = icon|default("icons/phone.svg") %}
+    {{ block('form_widget_simple') }}
+{%- endblock tel_widget -%}
+
+{% block hidden_widget %}
+    {% set type = type|default('hidden') %}
+    {{ block('form_widget_simple') }}
+{% endblock hidden_widget %}
+
+
+
+{###########
+ ###
+ ###    Buttons
+ ###
+ ###########}
+
+{%- block button_widget -%}
+    {# Some snippet from the default template #}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- elseif label is not same as(false) -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+
+    <button
+        id="{{ id }}"
+        type="{{ type|default('button') }}"
+        name="{{ full_name }}"
+        {% if value is defined %}
+            value="{{ value }}"
+        {% endif %}
+        {% if formId is defined %}
+            form="{{ formId }}"
+        {% endif %}
+        {% if disabled %} disabled {% endif -%}
+        {{ block('attributes') }}
+
+        class="
+            px-8 py-3
+            text-center text-base font-semibold
+            flex justify-center items-center
+            shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded
+            transition ease-in duration-200
+            {{ tailwind_classes|default("
+                bg-secondary text-white
+                focus:ring-secondary-light focus:ring-offset-brown-200
+                hover:bg-secondary-light hover:text-white
+                active:bg-secondary-dark
+                active:ring-secondary-dark active:ring-offset-secondary-light
+                active:text-white
+            ") }}
+            {% if classes is defined %}{{ classes }}{% endif %}
+        "
+    >
+        {# Some snippet from the default template #}
+        {%- if translation_domain is same as(false) -%}
+            {%- if label_html is same as(false) -%}
+                {{- label -}}
+            {%- else -%}
+                {{- label|raw -}}
+            {%- endif -%}
+        {%- else -%}
+            {%- if label_html is same as(false) -%}
+                {{- label|trans(label_translation_parameters, translation_domain) -}}
+            {%- else -%}
+                {{- label|trans(label_translation_parameters, translation_domain)|raw -}}
+            {%- endif -%}
+        {%- endif -%}
+    </button>
+{%- endblock button_widget -%}
+
+{%- block submit_widget -%}
+    {%- set type = type|default('submit') -%}
+    {{ block('button_widget') }}
+{%- endblock submit_widget -%}
+
+{%- block reset_widget -%}
+    {%- set type = type|default('reset') -%}
+    {% set tailwind_classes = "
+        bg-warning text-white
+        focus:ring-warning-light focus:ring-offset-yellow-200
+        hover:bg-warning-light hover:text-white
+        active:bg-warning-dark
+        active:ring-warning-dark active:ring-offset-warning-light
+        active:text-white
+    " %}
+    {{ block('button_widget') }}
+{%- endblock reset_widget -%}
+
+
+
+{###########
+ ###
+ ###    Form content layouts
+ ###
+ ###########}
+
+{%- block form_row -%}
+    {% if placeholder is not defined
+        and type in ['text', 'textarea', 'url', 'email', 'tel', 'number', 'password'] %}
+        {% set placeholder = label %}
+        {% set label = null %}
+    {% endif %}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock form_row -%}
