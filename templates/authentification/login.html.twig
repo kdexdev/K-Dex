@@ -22,20 +22,30 @@
         md:justify-start md:px-16 md:space-y-16">
         <h1 class="text-3xl text-center">Welcome back!</h1>
 
-        <form id="login" action="/login" method="POST"
-            class="flex flex-col w-full space-y-6">
+        {{ form_start(formLogin, {'attr': {
+            id: "login",
+            class: "flex flex-col w-full space-y-6"
+        }}) }}
             <div class="space-y-3">
-            {{ component('Input', { type: 'text', formId: "login",
-                name: "username", placeholder: "Username", icon: "icons/user.svg"
-                 } ) }}
-            {{ component('Input', { type: 'password', formId: "login",
-                name: "password", placeholder: "Password", icon: "icons/password.svg"
-                 } ) }}
+                {{ form_row(formLogin.username, {
+                    formId: "login",
+                    label: false,
+                    placeholder: "Username",
+                    icon: "icons/user.svg",
+                    value:  usernameLast|default(null),
+                    required: true
+                }) }}
+                {{ form_row(formLogin.password, {
+                    formId: "login",
+                    label: false,
+                    placeholder: "Password",
+                    required: true
+                }) }}
             </div>
 
             {{ component('Button', { buttonObject: 'button', text: "Log in",
                 type: 'submit', form: "login" }) }}
-        </form>
+        {{ form_end(formLogin) }}
 
         <p>
             Don't have an account?
