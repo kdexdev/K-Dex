@@ -15,7 +15,7 @@ All further console commands get run from this Docker container shell
 3. Install dependencies though the Docker container
    - `composer install`
 
-And now you can access through http://localhost:8000/. Make sure you're connecting though HTTP, not HTTP**S**
+And now you can access through http://localhost:8000/. Ignore the SSL warning; for development purposes, the SSH key is manually generated & signed inside of the Nginx container.
 
 ## Details
 
