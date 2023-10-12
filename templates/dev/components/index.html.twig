@@ -63,5 +63,19 @@
                 { name: 'default', attributes: {} },
                 { name: 'with icons', attributes: { icon: 'icons/hash.svg' } },
         ]) }}
+
+        {{ macros.CustomComponent('Alert', [
+            { type: 'normal', title: "Normal alert", message: "Lorem ipsum dolor sit amet"},
+            { type: 'info', title: "Info alert", message: "Lorem ipsum dolor sit amet"},
+            { type: 'success', title: "Success alert", message: "Lorem ipsum dolor sit amet"},
+            { type: 'warning', title: "Warning alert", message: "Lorem ipsum dolor sit amet"},
+            { type: 'danger', title: "Danger alert", message: "Lorem ipsum dolor sit amet"}
+        ], [
+            { name: 'default', attributes: {} },
+            { name: 'with icons', attributes: { icon: 'icons/hash.svg' } },
+            { name: 'with list', attributes: { messageList: [
+                "message 1", "message 2", "message 5"
+            ] } },
+        ]) }}
     </div>
 {% endblock %}

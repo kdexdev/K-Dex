@@ -1,0 +1,41 @@
+<div
+    role="alert"
+    class="border-l-4 p-4 flex flex-row
+        {### NORMAL ###
+            bg-secondary-light border-secondary-dark text-secondary-dark
+        #}
+        {### INFO ###
+            bg-info-light border-info-dark text-info-dark
+        #}
+        {### SUCCESS ###
+            bg-success-light border-success-dark text-success-dark
+        #}
+        {### WARNING ###
+            bg-warning-light border-warning-dark text-warning-dark
+        #}
+        {### DANGER ###
+            bg-danger-light border-danger-dark text-danger-dark
+        #}
+        {{ this.getAlertStyleClasses }}"
+>
+    {% if icon is defined %}
+        {{ svg_embed(icon,
+            ["flex", "items-center", "pr-2"]) }}
+    {% endif %}
+    <div class="flex flex-col w-full">
+        <h1 class="text-xl font-bold">
+            {{ title }}
+        </h1>
+        <p>
+            {{ message }}
+
+            {% if messageList is defined %}
+            <ul class="list-disc ml-4">
+                {% for messageText in messageList %}
+                    <li>{{ messageText }}</li>
+                {% endfor -}
+            </ul>
+            {% endif %}
+        </p>
+    </div>
+</div>
