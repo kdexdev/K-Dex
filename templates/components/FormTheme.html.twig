@@ -117,6 +117,69 @@
 
 {###########
  ###
+ ###    Checkbox & radio
+ ###
+ ###########}
+{% block checkbox_widget %}
+    <input
+        type="checkbox"
+        name="{{ name }}"
+        {% if placeholder is defined %}
+            placeholder="{{ placeholder ?? '' }}"
+        {% endif %}
+        {% if formId is defined %}
+            form="{{ formId }}"
+        {% endif %}
+        {% if value is defined %}
+            value="{{ value }}"
+        {% endif %}
+        {% if checked %}
+            checked
+        {% endif %}
+
+        class="
+            appearance-none h-6 w-6 mr-2 bg-grey-950
+            rounded border border-secondary-light
+            focus:border-primary focus:outline-primary
+            focus:ring-0 focus:ring-offset-0
+            checked:bg-primary checked:hover:bg-primary-light checked:focus:bg-primary-light"
+
+        {{ block('widget_attributes') }}
+    >
+{% endblock checkbox_widget %}
+
+{% block radio_widget %}
+    <input
+        type="radio"
+        name="{{ name }}"
+        {% if placeholder is defined %}
+            placeholder="{{ placeholder ?? '' }}"
+        {% endif %}
+        {% if formId is defined %}
+            form="{{ formId }}"
+        {% endif %}
+        {% if value is defined %}
+            value="{{ value }}"
+        {% endif %}
+        {% if checked %}
+            checked
+        {% endif %}
+
+        class="
+            appearance-none h-6 w-6 mr-2 bg-grey-950
+            border border-secondary-light
+            focus:border-primary focus:outline-primary
+            focus:ring-0 focus:ring-offset-0
+            checked:bg-primary checked:hover:bg-primary-light checked:focus:bg-primary-light"
+
+        {{ block('widget_attributes') }}
+    >
+{% endblock radio_widget %}
+
+
+
+{###########
+ ###
  ###    Buttons
  ###
  ###########}
@@ -215,11 +278,24 @@
         {% set placeholder = label %}
         {% set label = null %}
     {% endif %}
+
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+
+    <div
+        class="flex
+            {% if type in ['checkbox', 'radio'] %}
+                flex-row
+            {% else %}
+                flex-col
+            {% endif %}
+            "
+        {% with {attr: row_attr} %}
+            {{ block('attributes') }}
+        {% endwith %}
+    >
         {{- form_label(form) -}}
         {{- form_errors(form) -}}
         {{- form_widget(form, widget_attr) -}}
@@ -227,6 +303,31 @@
     </div>
 {%- endblock form_row -%}
 
+{% block checkbox_row %}
+    {% set row_attr = row_attr|merge(
+        { class: row_attr.class|default(row_class|default('mb-6')) }
+    ) %}
+
+    {% set widget_attr = {} %}
+    {% if help is not empty %}
+        {% set widget_attr = {attr: {'aria-describedby': id ~"_help"}} %}
+    {% endif %}
+
+    <div
+        {% with {attr: row_attr} %}
+            {{ block('attributes') }}
+        {% endwith %}
+    >
+        {{- form_errors(form) -}}
+
+        <div class="inline-flex items-center">
+            {{- form_widget(form, widget_attr) -}}
+            {{- form_label(form) -}}
+        </div>
+
+        {{- form_help(form) -}}
+    </div>
+{% endblock checkbox_row %}
 
 
 
