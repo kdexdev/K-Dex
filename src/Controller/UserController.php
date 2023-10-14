@@ -38,7 +38,7 @@ class UserController extends AbstractController
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $registrationForm->get('plainPassword')->getData()
+                    $registrationForm->get('passwords')->getData()
                 )
             );
 

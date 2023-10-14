@@ -35,9 +35,13 @@
                     placeholder: "Your username",
                     icon: "icons/user.svg"
                 }) }}
-                {{ form_row(registrationForm.plainPassword, {
+                {{ form_row(registrationForm.passwords.first, {
                     label: false,
                     placeholder: "Password"
+                }) }}
+                {{ form_row(registrationForm.passwords.second, {
+                    label: false,
+                    placeholder: "Repeat your password"
                 }) }}
                 {{ form_row(registrationForm.agreeTos, {
                     label: "Agree to the Terms of Service"

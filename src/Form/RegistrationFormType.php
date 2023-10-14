@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Validator\CustomUniqueEmail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,6 +24,7 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'attr' => ['autocomplete' => 'email'],
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => "Please enter an email address"
@@ -34,10 +37,14 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Email([
                         'message' => "Please enter a valid email address"
+                    ]),
+                    new CustomUniqueEmail([
+                        'message' => "An account with this email already exists",
                     ])
                 ]
             ])
             ->add('username', TextType::class, [
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a username'
@@ -50,11 +57,10 @@ class RegistrationFormType extends AbstractType
                     ])
                 ]
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+            ->add('passwords', RepeatedType::class, [
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'type' => PasswordType::class,
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password'
@@ -65,9 +71,11 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                         'maxMessage' => 'Your password should consist of at most {{ limit }} characters'
                     ])
-                ]
+                ],
+                'invalid_message' => 'The passwords must match.',
             ])
             ->add('agreeTos', CheckboxType::class, [
+                'required' => true,
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
