@@ -63,7 +63,7 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ../.env:/var/lib/mysql/.env
-      - ../.mysql:/var/lib/mysql
+      - ../var/mysql:/var/lib/mysql
       - ../var/log/mysql:/var/log/mysql
     ports:
       - "3306:3306"

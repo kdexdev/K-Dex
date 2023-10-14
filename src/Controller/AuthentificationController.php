@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Form\LoginFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -13,23 +12,27 @@ class AuthentificationController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
     public function login(
-        Request $request,
         AuthenticationUtils $authenticationUtils
     ): Response
     {
+        // Check if a user is already logged in
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_user_profile');
+        }
+
         // get the login error if there is one
         $authError = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         $loginForm = $this->createForm(LoginFormType::class);
-        $loginForm->handleRequest($request);
 
+        // Form wasn't submitted, or there was an error with it
         return $this->render('authentification/login.html.twig', [
             'controller_name' => 'AuthentificationController',
             'formLogin' => $loginForm->createView(),
             'errorAuthentification' => $authError,
-            'usernameLast' => $lastUsername
+            'lastUsername' => $lastUsername
         ]);
     }
 

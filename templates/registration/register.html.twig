@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AuthorizationController!{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body %}
 <main class="flex w-full h-full min-h-[100vh] height-fit
@@ -22,45 +22,31 @@
         md:justify-start md:px-16 md:space-y-16">
         <h1 class="text-3xl text-center">Welcome to the community!</h1>
 
-        {{ form_start(formRegister, {'attr': {
-            id: "registration",
-            class: "flex flex-col w-full space-y-6"
-        }}) }}
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
             <div class="space-y-3">
-                {{ form_row(formRegister.email, {
-                    formId: "registration",
+                {{ form_row(registrationForm.email, {
                     label: false,
-                    placeholder: "Your email address",
-                    icon: "icons/envelope-simple.svg",
-                    value:  emailLast|default(null),
-                    required: true
+                    placeholder: "Email"
                 }) }}
-                {{ form_row(formRegister.username, {
-                    formId: "registration",
+                {{ form_row(registrationForm.username, {
                     label: false,
                     placeholder: "Your username",
-                    icon: "icons/user.svg",
-                    value:  usernameLast|default(null),
-                    required: true
+                    icon: "icons/user.svg"
                 }) }}
-                {{ form_row(formRegister.plainPassword, {
-                    formId: "registration",
+                {{ form_row(registrationForm.plainPassword, {
                     label: false,
-                    placeholder: "Password",
-                    required: true
+                    placeholder: "Password"
                 }) }}
-                {{ form_row(formRegister.agreeTos, {
-                    formId: "registration",
-                    label: "Agree to the Terms of Service",
-                    required: true
+                {{ form_row(registrationForm.agreeTos, {
+                    label: "Agree to the Terms of Service"
                 }) }}
-
-
             </div>
 
             {{ component('Button', { buttonObject: 'button', text: "Register",
-                type: 'submit', form: "registration" }) }}
-        {{ form_end(formRegister) }}
+                type: 'submit' }) }}
+        {{ form_end(registrationForm) }}
 
         <p>
             Already have an account?

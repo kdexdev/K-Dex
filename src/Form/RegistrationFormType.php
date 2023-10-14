@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -20,22 +21,26 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'attr' => ['autocomplete' => 'email'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Please enter an email address",
+                        'message' => "Please enter an email address"
                     ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => "Your email should consist of at least {{ limit }} characters.",
-                        'max' => 255,
+                        'max' => 180,
                         'maxMessage' => "Your email should consist of at most {{ limit }} characters."
+                    ]),
+                    new Email([
+                        'message' => "Please enter a valid email address"
                     ])
                 ]
             ])
             ->add('username', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a username',
+                        'message' => 'Please enter a username'
                     ]),
                     new Length([
                         'min' => 6,
@@ -52,23 +57,23 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Please enter a password'
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        'minMessage' => 'Your password should consist of at least {{ limit }} characters',
                         'max' => 4096,
-                    ]),
-                ],
+                        'maxMessage' => 'Your password should consist of at most {{ limit }} characters'
+                    ])
+                ]
             ])
             ->add('agreeTos', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You are required to agree to our Terms of Service.',
-                    ]),
-                ],
+                        'message' => 'You are required to agree to our Terms of Service.'
+                    ])
+                ]
             ]);
     }
 
@@ -76,6 +81,9 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'register_token'
         ]);
     }
 }

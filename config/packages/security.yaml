@@ -8,7 +8,6 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,18 +15,23 @@ security:
         public:
             # Allow only a small list of pages to be public
             pattern: ^/(|login|register|tos|privacy|contact)$
-            security: false
-
-            form_login:
-                enable_csrf: true
+            # Allow registration and login to work properly
+            lazy: true
+            custom_authenticator: App\Security\LoginAuthenticator
         main:
             # All other pages by default require authentification
-            lazy: true
+            security: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginAuthenticator
             logout:
                 path: app_logout
                 target: app_landing_page
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: false
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

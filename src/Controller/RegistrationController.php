@@ -31,44 +31,31 @@ class RegistrationController extends AbstractController
         );
         $registrationForm->handleRequest($request);
 
-        // Initializing user detail variables
-        $userEmail = '';
-        $userUsername = '';
-
-        if ($registrationForm->isSubmitted()) {
-            $userEmail      = $registrationForm->get("email")->getData();
-            $userUsername   = $registrationForm->get("username")->getData();
-
-            if ($registrationForm->isValid()) {
-                $user->setEmail($userEmail);
-                $user->setUsername($userUsername);
-                // encode the plain password
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $registrationForm->get("password")->getData()
-                    )
-                );
-
-                // Update the database entry
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                return $userAuthenticator->authenticateUser(
+        // Check if form was submitted
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
-                    $authenticator,
-                    $request
-                );
-            }
+                    $registrationForm->get('plainPassword')->getData()
+                )
+            );
+
+            // Update the database entry
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
         }
 
-        // There were issues with the registration form, reload the page
+        // Form wasn't submitted, or there was an error with it
         return $this->render('registration/register.html.twig', [
-            'controller_name'   => 'AuthentificationController',
-            'formRegister'      => $registrationForm->createView(),
-            // 'errorRegistration' => $authError,
-            'emailLast'         => $userEmail,
-            'usernameLast'      => $userUsername
+            'controller_name' => 'RegistrationController',
+            'registrationForm' => $registrationForm->createView(),
         ]);
     }
 }
