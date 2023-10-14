@@ -24,8 +24,15 @@ class UserController extends AbstractController
         UserAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): Response {
-        $user = new User();
+        // Chech if the user is already logged in
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_user_profile', [
+                'username' => $this->getUser()->getUsername()
+            ]);
+        }
 
+        // Build the registration form
+        $user = new User();
         $registrationForm = $this->createForm(
             type: RegistrationFormType::class,
             data: $user
@@ -63,8 +70,11 @@ class UserController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // Chech if the user is already logged in
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_user_profile');
+            return $this->redirectToRoute('app_user_profile', [
+                'username' => $this->getUser()->getUsername()
+            ]);
         }
 
         // get the login error if there is one
