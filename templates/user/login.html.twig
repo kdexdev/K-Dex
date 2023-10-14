@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<main class="flex w-full h-full min-h-[100vh] height-fit
+    flex-col justify-center items-center
+    md:flex-row
+    xl:container xl:mx-auto">
+
+    <div class="flex flex-col w-full h-full min-h-[100vh] md:w-1/2">
+        {# "floating" forum logo #}
+        <div class="flex justify-center pt-12 md:justify-start md:pl-12">
+            <a href="/" aria-label="Site logo"
+                class="flex items-center p-2">
+                {{ svg_embed('icons/logo-large.svg') }}
+            </a>
+        </div>
+
+        <div class="flex flex-col justify-center items-center
+            p-8 my-auto space-y-10
+            md:justify-start md:px-16 md:space-y-16">
+            <h1 class="text-3xl text-center">Welcome back!</h1>
+
+            {% if error %}
+                {{ component('Alert', {
+                    type: 'danger',
+                    title: '',
+                    message: error.messageKey|trans(error.messageData, 'security'),
+                    style: "w-full"
+                }) }}
+            {% endif %}
+
+            <form id="login" method="POST"
+                class="flex flex-col w-full space-y-6">
+                <div class="space-y-3">
+                    {{ component('Input', {
+                        type: 'text',
+                        formId: "login",
+                        name: "username",
+                        placeholder: "Username",
+                        icon: "icons/user.svg",
+                        required: true,
+                        value: lastUsername|default('')
+                    }) }}
+
+                    {{ component('Input', {
+                        type: 'password',
+                        formId: "login",
+                        name: "password",
+                        placeholder: "Password",
+                        icon: "icons/password.svg",
+                        required: true
+                    } ) }}
+                </div>
+
+                {{ component('Input', {
+                    type: 'hidden',
+                    formId: "login",
+                    name: "_csrf_token",
+                    value: csrf_token('authenticate')
+                } ) }}
+
+                {{ component('Button', {
+                    buttonObject: 'button',
+                    type: 'submit',
+                    text: "Log in"
+                }) }}
+            </form>
+
+            <p>
+                Don't have an account?
+                <a href="{{ path('app_register') }}"
+                    class="font-semibold underline hover:text-orange">
+                    Register here</a>.
+            </p>
+        </div>
+    </div>
+
+    {# Sidebar image #}
+    <div class="hidden md:block md:w-1/2 md:h-full">
+        <img src="{{ asset('images/lewd.svg') }}"
+            alt="An anime chibi girl holding a sign that says 'lewd'."
+            class="object-contain w-full min-h-[60%] max-h-[90%]
+                shadow-lg shadow-secondary-dark"
+            style="filter: invert(66%) sepia(55%) saturate(5704%) hue-rotate(355deg) brightness(100%) contrast(94%);"/>
+    </div>
+</main>
+{% endblock %}
