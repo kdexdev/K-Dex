@@ -7,10 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ColorsController extends AbstractController
+class DesignController extends AbstractController
 {
+    #[Route('/dev/components', name: 'app_development_component')]
+    public function components(): Response
+    {
+        return $this->render('dev/components.html.twig', [
+            'controller_name' => 'DesignController',
+        ]);
+    }
+
     #[Route('/dev/colors', name: 'dev_app_colors')]
-    public function index(): Response
+    public function colors(): Response
     {
         // Read the tailwind.config.js file
         $tailwindConfig = file_get_contents(
@@ -44,8 +52,8 @@ class ColorsController extends AbstractController
         $colors = $parsedConfig['colors'];
 
         // Render the Twig template and pass the colors to it
-        return $this->render('dev/colors/index.html.twig', [
-            'controller_name' => 'ColorsController',
+        return $this->render('dev/colors.html.twig', [
+            'controller_name' => 'DesignController',
             'colors' => $colors,
         ]);
     }
