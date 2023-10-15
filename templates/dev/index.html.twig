@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Colors swathe!{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto my-10">
+        <h1 class="text-4xl pb-12 text-center">Development views</h1>
+
+        <ul class="flex flex-col mb-3 space-y-3">
+            {% for routeName, route in routes %}
+                <li>
+                    {{ component('Button', {
+                        buttonObject:'a',
+                        text: routeName,
+                        href: route.path,
+                        target: '_self',
+                        additionalClasses: "w-full"
+                    }) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
