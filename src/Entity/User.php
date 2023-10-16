@@ -25,9 +25,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::STRING, length: 90, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column(name: "avatar_id", type: Types::GUID, unique: true, nullable: true)]
-    private ?string $avatarId = null;
-
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $email = null;
 
@@ -52,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: "deleted_at", type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    #[ORM\OneToOne(mappedBy: 'UserId', cascade: ['persist', 'remove'])]
+    private ?UserProfile $userProfile = null;
 
 
     /**
@@ -84,19 +84,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    // Getter and setter for the avatar image id
-    public function getAvatarId(): ?string
-    {
-        return $this->avatarId;
-    }
-
-    public function setAvatarId(?string $avatarId): static
-    {
-        $this->avatarId = $avatarId;
 
         return $this;
     }
@@ -195,5 +182,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
+
+    public function setUserProfile(UserProfile $userProfile): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userProfile->getUserId() !== $this) {
+            $userProfile->setUserId($this);
+        }
+
+        $this->userProfile = $userProfile;
+
+        return $this;
     }
 }
