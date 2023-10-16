@@ -48,6 +48,8 @@ class UserController extends AbstractController
                     $registrationForm->get('passwords')->getData()
                 )
             );
+            // Add the default user role
+            $user->setRoles($user->getRoles());
 
             // Update the database entry
             $entityManager->persist($user);

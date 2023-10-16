@@ -128,7 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
 
         return $this;
     }
@@ -142,8 +142,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->setLastVisitedAt(new \DateTimeImmutable());
+        $now = new \DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->setLastVisitedAt($now);
     }
 
     // Datetime of latest user account activity
