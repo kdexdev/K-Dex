@@ -24,7 +24,7 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $displayName = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $dateOfBirth = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -36,21 +36,29 @@ class UserProfile
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $timezone = null;
 
-    public function getId(): ?int
+
+
+    /**
+     * Database entry initializer
+     */
+    #[ORM\PrePersist]
+    public function userProfileInitializer(): UserProfile {
+        // Set the initial display name to the username
+        $this->displayName = $this->getUser()->getUsername();
+
+        return $this;
+    }
+
+
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getProfilePictureId(): ?string

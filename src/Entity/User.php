@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: "deleted_at", type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\OneToOne(mappedBy: 'UserId', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserProfile $userProfile = null;
 
 
@@ -65,6 +65,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+    /**
+     * Database entry initializer
+     */
+    #[ORM\PrePersist]
+    public function userInitializer(): User {
+        // Set the creation times
+        $now = new \DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->lastVisitedAt = $now;
+
+        // Initialize a profile
+        $this->userProfile = new UserProfile();
+        $this->userProfile->setUser($this);
+
+        return $this;
+    }
+
+
     /***
      * Getters and setters for all properties
      */
@@ -75,12 +93,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    // Getter and setter for the user's system name
+    // The user's system name
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+    // The user's system name
     public function setUsername(string $username): static
     {
         $this->username = $username;
@@ -88,12 +107,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Getter and setter for the user's email
+    // Get the user's email
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    // Set the user's email
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -113,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    // Sets a JSON array of user roles
     public function setRoles(array $roles): static
     {
         $this->roles = array_unique($roles);
@@ -126,20 +147,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
-    {
-        $now = new \DateTimeImmutable();
-        $this->createdAt = $now;
-        $this->setLastVisitedAt($now);
-    }
-
     // Datetime of latest user account activity
     public function getLastVisitedAt(): ?\DateTimeImmutable
     {
         return $this->lastVisitedAt;
     }
 
+    // Datetime of latest user account activity
     public function setLastVisitedAt(\DateTimeImmutable $lastVisitedAt): static
     {
         $this->lastVisitedAt = $lastVisitedAt;
@@ -153,6 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->deletedAt;
     }
 
+    // Datetime of user account deletion
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
@@ -161,6 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * The getting of an encoded password string
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
@@ -168,11 +184,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+    // The setting of an encoded password string
     public function setPassword(string $password): static
     {
         $this->password = $password;
 
         return $this;
+    }
+
+    // Getting of the assigned user profile
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
     }
 
     /**
@@ -182,22 +205,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getUserProfile(): ?UserProfile
-    {
-        return $this->userProfile;
-    }
-
-    public function setUserProfile(UserProfile $userProfile): static
-    {
-        // set the owning side of the relation if necessary
-        if ($userProfile->getUserId() !== $this) {
-            $userProfile->setUserId($this);
-        }
-
-        $this->userProfile = $userProfile;
-
-        return $this;
     }
 }
