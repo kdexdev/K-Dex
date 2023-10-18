@@ -19,12 +19,20 @@
                 { name: 'disabled', attributes: { disabled: true } }
         ]) }}
 
-        {{ macros.CustomComponent('TopNavbar', [{}], [
-            {name: 'default', attributes: { links: [
-                { name: 'Link', href: '#' },
-                { name: 'Link', href: '#' },
-                { name: 'Link', href: '#', active: true }
-            ] }}
+        {{ macros.CustomComponent('TopNavbar', [
+            {
+                links: [
+                    { name: 'Link', href: '#' },
+                    { name: 'Link', href: '#' },
+                    { name: 'Link', href: '#', active: true }
+                ]
+            }
+            ], [
+                { name: 'default', attributes: {} },
+                { name: 'authenticated', attributes: {
+                    authenticated: true,
+                    username: "#"
+                } }
         ]) }}
 
         {{ macros.CustomComponent('Article', [

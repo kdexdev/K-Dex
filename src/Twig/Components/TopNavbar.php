@@ -10,6 +10,8 @@ use Symfony\UX\TwigComponent\Attribute\PreMount;
 final class TopNavbar
 {
     public array $links;
+    public bool $authenticated;
+    public string $username;
 
     #[PreMount()]
     public function preMount(array $data): array
@@ -41,6 +43,15 @@ final class TopNavbar
         // Allow some links to actually be active
         $resolver->setDefined('active');
         $resolver->setAllowedTypes('active', 'boolean');
+
+        // Show different buttons depending on whether the user is logged in
+        $resolver->setDefined('authenticated');
+        $resolver->setAllowedTypes('authenticated', 'boolean');
+        $resolver->setDefault('authenticated', false);
+
+        // Show different buttons depending on whether the user is logged in
+        $resolver->setDefined('username');
+        $resolver->setAllowedTypes('username', 'string');
 
 
         return $resolver->resolve($data);

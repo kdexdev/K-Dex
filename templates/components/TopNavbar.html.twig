@@ -1,4 +1,6 @@
 <script>
+{% if authenticated %}
+{% endif %}
   function checkTopnavHbr(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -23,9 +25,60 @@
             <label for="topnav-hbr" tabindex="0"
                 onkeydown="checkTopnavHbr(event)"
                 class="block relative cursor-pointer lg:hidden">
-                {{ svg_embed('icons/menu.svg') }}
+                {% if authenticated %}
+                    {{ svg_embed('icons/user-profile.svg') }}
+                {% else %}
+                    {{ svg_embed('icons/menu.svg') }}
+                {% endif %}
             </label>
         </div>
+        {% if authenticated %}
+        <div id="topnav-user-menu" class="hidden absolute
+            flex-wrap items-center
+            {# The hamburger menu on small screens #}
+            fixed z-10 left-8 right-8
+            mt-20 space-y-8 p-6
+            border border-secondary rounded-xl bg-secondary-light
+            {# Tablet/laptop screens #}
+            md:flex-nowrap
+            {# Desktop view overwrite #}
+            lg:static lg:w-max lg:z-0
+            lg:space-y-0 lg:p-0 lg:m-0
+            lg:border-0 lg:bg-transparent
+            lg:flex lg:items-stretch
+        ">
+            <ul class="
+                {# Hamburger menu on small screens #}
+                space-y-6
+                {# Desktop view overwrite #}
+                lg:flex lg:space-y-0 lg:pr-4
+            ">
+            {% for link in links %}
+                <li class="flex border-primary focus-within:border-b-4
+                            transition-all duration-200">
+                    <a href="{{ link.href }}"
+                        class="self-center px-4
+                        {# Alignment fix on focus #} focus:-mb-1">
+                        {{ link.name }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+            <div class="flex w-full
+                flex-col space-y-2
+                xs:flex-row xs:space-x-3 xs:space-y-0
+                md:w-max
+                lg:space-y-0
+                flex-shrink-0 items-center">
+                <a href="/user/{{ username }}"
+                    class="flex items-center space-x-2">
+                    <p>Hello {{ username }}</p>
+                    {# Add a user icon import, with the SVG as a default #}
+                    {{ svg_embed('icons/user-profile.svg') }}
+                </a>
+            </div>
+        </div>
+        {% else %}
         <div id="topnav-hbr-menu" class="hidden absolute
             flex-wrap items-center
             {# Hamburger menu on small screens #}
@@ -75,5 +128,6 @@
                 }) }}
             </div>
         </div>
+        {% endif %}
     </div>
 </nav>
